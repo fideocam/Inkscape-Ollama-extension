@@ -2,7 +2,8 @@
 <inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
     <name>InkscapeGPT…</name>
     <id>com.inkscapeollama.inkscape_gpt</id>
-    <effect implements-custom-gui="true">
+    <param name="prompt" type="string" gui-text="Prompt" gui-description="Create: Add centered &quot;Hello world!&quot; text in the middle of the document (36 pt). Change: Make the selected object red and scale to 150%. Review: Review this document for layout, SVG hygiene, and export readiness.">Create: Add centered "Hello world!" text in the middle of the document (36 pt).</param>
+    <effect needs-live-preview="false">
         <object-type>all</object-type>
         <effects-menu>
             <submenu name="InkscapeGPT"/>

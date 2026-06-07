@@ -281,6 +281,44 @@ def check_connection(base_url: str, timeout: float = 3.0) -> bool:
         return False
 
 
+def test_ollama_connection(
+    base_url: str,
+    model: str,
+    *,
+    try_launch: bool = True,
+    connection_timeout: float = 3.0,
+    timeout: float = 10.0,
+) -> str:
+    """Verify Ollama responds and the configured model is installed."""
+    base = _normalize_base(base_url)
+    if not wait_for_connection(
+        base_url,
+        timeout=connection_timeout,
+        try_launch=try_launch,
+    ):
+        raise RuntimeError(
+            f"Ollama is not reachable at {base}. "
+            "Start the Ollama app or run 'ollama serve', then try again."
+        )
+
+    names = list_model_names(base_url, timeout=timeout)
+    resolved = resolve_model_name(base_url, model, timeout=timeout)
+
+    lines = [
+        f"Connected to Ollama at {base}.",
+        f"Model {resolved!r} is available.",
+        f"{len(names)} model(s) installed.",
+    ]
+    try:
+        ctx = get_model_context_settings(base_url, resolved, timeout=timeout)
+        summary = ctx.get("summary")
+        if summary:
+            lines.append(str(summary))
+    except Exception:
+        pass
+    return "\n".join(lines)
+
+
 _warm_cache_lock = threading.Lock()
 _warm_cache: dict[tuple[str, str], float] = {}
 _WARM_CACHE_TTL = 300.0

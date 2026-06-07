@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>InkscapeGPT Settings…</name>
+    <id>com.inkscapeollama.inkscape_gpt_settings</id>
+    <param name="model" type="string" gui-text="Ollama model">llama3.2:latest</param>
+    <param name="base_url" type="string" gui-text="Ollama URL">http://127.0.0.1:11434</param>
+    <param name="max_chars" type="int" min="2000" max="500000" gui-text="Max document chars">48000</param>
+    <param name="auto_wake" type="bool" gui-text="Auto-start Ollama">true</param>
+    <param name="preload" type="bool" gui-text="Preload model">true</param>
+    <param name="test_connection" type="bool" gui-text="Test connection on Apply">true</param>
+    <effect needs-live-preview="false">
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="InkscapeGPT"/>
+        </effects-menu>
+    </effect>
+    <menu-tip>Save Ollama settings. With “Test connection on Apply”, Inkscape shows whether Ollama and the model are reachable.</menu-tip>
+    <script>
+        <command location="inx" interpreter="python">inkscape_gpt_settings.py</command>
+    </script>
+</inkscape-extension>

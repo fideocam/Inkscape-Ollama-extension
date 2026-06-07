@@ -49,3 +49,18 @@ def save_config(data: dict[str, Any]) -> None:
     merged = dict(DEFAULTS)
     merged.update(data)
     config_path().write_text(json.dumps(merged, indent=2) + "\n", encoding="utf-8")
+
+
+def apply_extension_options(options: Any) -> dict[str, Any]:
+    """Merge Inkscape settings-dialog options into the stored config."""
+    config = load_config()
+    for key in ("model", "base_url", "max_chars", "num_ctx", "request_timeout"):
+        if hasattr(options, key):
+            val = getattr(options, key)
+            if val is not None and val != "":
+                config[key if key != "max_chars" else "max_context_chars"] = val
+    if getattr(options, "auto_wake", None) is not None:
+        config["auto_wake_ollama"] = bool(options.auto_wake)
+    if getattr(options, "preload", None) is not None:
+        config["preload_model"] = bool(options.preload)
+    return config

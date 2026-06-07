@@ -60,16 +60,21 @@ Or copy the `inkscape_ollama/` folder manually into the user extensions director
 
 ## Requirements
 
-- Inkscape **1.2+** (uses `inkex` and GTK 3)
+- Inkscape **1.2+** (uses `inkex`)
 - [Ollama](https://ollama.com) running locally with a model pulled (e.g. `ollama pull llama3.2`)
 
 ## Usage
 
-- Type a prompt and click **Ask InkscapeGPT**. The extension sends the system prompt, your text, and a text digest of the document (truncated by **Max document chars** in settings).
-- Use **Review design** (or **Extensions → InkscapeGPT → Review with InkscapeGPT…**) for analysis-focused prompts without automatic edits unless the model returns actions.
+InkscapeGPT uses Inkscape’s **built-in extension dialog** — a single prompt field for **InkscapeGPT…**, and a separate **InkscapeGPT Settings…** menu item for Ollama options.
+
+1. Choose **Extensions → InkscapeGPT → InkscapeGPT…**
+2. Edit the **Prompt** field (hover for Create / Change / Review examples), then click **Apply**.
+3. Model, URL, and related options: **Extensions → InkscapeGPT → InkscapeGPT Settings…** (stored in `~/.config/inkscape-ollama/config.json`). With **Test connection on Apply** enabled, Apply checks Ollama and shows the result.
+4. Quick check without changing settings: **Extensions → InkscapeGPT → Test Ollama Connection** (uses saved config).
+5. SVG edits appear on the canvas; text-only replies are saved to `~/.config/inkscape-ollama/last_response.txt`.
 - If the model ends its reply with `{"actions":[...]}`, those actions are applied to the open document.
-- **Stop** sets a cancel flag (the HTTP stream may not stop instantly).
-- Settings are stored in `~/.config/inkscape-ollama/config.json` (or `%APPDATA%\inkscape-ollama\` on Windows).
+- The full text of each reply is saved to `~/.config/inkscape-ollama/last_response.txt`.
+- Settings from the dialog are stored in `~/.config/inkscape-ollama/config.json` (or `%APPDATA%\inkscape-ollama\` on Windows).
 
 Edit **`inkscape_ollama/prompts/system_prompt_rules.txt`** for natural-language behaviour; **`action_schema.txt`** for allowed JSON ops. Restart Inkscape after prompt changes.
 
@@ -91,7 +96,21 @@ Same three-layer design as BlenderGPT:
 | Transport | `ollama_client.py` | Ollama HTTP (stdlib only) |
 | Prompting | `system_prompt.py`, `context_builder.py` | Rules + document digest |
 | Mutation | `apply_actions.py` | Parse JSON, apply allowlisted SVG ops |
-| UI | `inkscape_gpt.py` | GTK dialog + worker thread |
+| UI | `inkscape_gpt.py`, `.inx` files | Inkscape extension dialog + `effect()` |
+
+```bash
+chmod +x scripts/test_from_terminal.sh
+./scripts/test_from_terminal.sh
+```
+
+## Testing in Inkscape
+
+1. Open any document (even a blank page).
+2. Choose **Extensions → InkscapeGPT → InkscapeGPT…**
+3. Enter a prompt and click **Apply**.
+4. Wait for the Ollama call to finish; read the result message and check `~/.config/inkscape-ollama/last_response.txt` for the full reply.
+
+If the extension fails, Inkscape may show an error dialog. You can also run unit tests locally (below) without Inkscape.
 
 ## Tests
 

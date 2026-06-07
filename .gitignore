@@ -3,3 +3,4 @@ __pycache__/
 *.pyc
 .pytest_cache/
 .DS_Store
+inkscape_ollama/inkscape_gpt.log

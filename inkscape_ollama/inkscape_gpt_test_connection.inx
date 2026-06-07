@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>Test Ollama Connection</name>
+    <id>com.inkscapeollama.inkscape_gpt_test_connection</id>
+    <effect needs-live-preview="false">
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="InkscapeGPT"/>
+        </effects-menu>
+    </effect>
+    <menu-tip>Check that Ollama is running and the saved model is available (uses config.json).</menu-tip>
+    <script>
+        <command location="inx" interpreter="python">inkscape_gpt_test_connection.py</command>
+    </script>
+</inkscape-extension>

@@ -1,0 +1,1 @@
+# InkscapeGPT extension package

@@ -1,0 +1,23 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "inkscape-ollama"
+version = "0.1.0"
+description = "Inkscape extension: Ollama + SVG document context (tests run with pytest)"
+readme = "README.md"
+requires-python = ">=3.10"
+
+[project.optional-dependencies]
+dev = ["pytest>=7.0"]
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["inkscape_ollama*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["inkscape_ollama"]
+addopts = "-q"
+filterwarnings = ["ignore::DeprecationWarning"]

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<inkscape-extension xmlns="http://www.inkscape.org/namespace/inkscape/extension">
+    <name>InkscapeGPT…</name>
+    <id>com.inkscapeollama.inkscape_gpt</id>
+    <effect implements-custom-gui="true">
+        <object-type>all</object-type>
+        <effects-menu>
+            <submenu name="InkscapeGPT"/>
+        </effects-menu>
+    </effect>
+    <script>
+        <command location="inx" interpreter="python">inkscape_gpt.py</command>
+    </script>
+</inkscape-extension>
